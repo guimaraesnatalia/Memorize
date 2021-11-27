@@ -13,11 +13,15 @@ struct ContentView: View {
     
     var body: some View {
         VStack{
-            HStack{
-                ForEach(emojis[0..<emojiCount], id:\.self){ emoji in
-                    CardView(content: emoji)
+            ScrollView{
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))]){
+                    ForEach(emojis[0..<emojiCount], id:\.self){ emoji in
+                        CardView(content: emoji).aspectRatio(2/3, contentMode: .fit)
+                    }
                 }
             }
+            .foregroundColor(/*@START_MENU_TOKEN@*/.red/*@END_MENU_TOKEN@*/)
+            Spacer()
             HStack{
                 add
                 Spacer()
@@ -27,7 +31,6 @@ struct ContentView: View {
             .padding(.horizontal)
         }
         .padding(.horizontal)
-        .foregroundColor(/*@START_MENU_TOKEN@*/.red/*@END_MENU_TOKEN@*/)
 
             
     }
@@ -67,13 +70,9 @@ struct CardView: View{
         ZStack{
             let shape = RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
             if isFaceUp {
-             shape
-                .fill()
-                .foregroundColor(.white)
-                shape
-               .stroke(lineWidth: 3)
-            Text(content)
-                .font(.largeTitle)
+                shape.fill().foregroundColor(.white)
+                shape.strokeBorder(lineWidth: 3)
+                Text(content).font(.largeTitle)
             } else {
                 shape
                    .fill()
